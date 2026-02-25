@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 export default function OrderModal({ product, lang, t, onClose }) {
     const [mobile, setMobile] = useState('');
@@ -23,7 +24,7 @@ export default function OrderModal({ product, lang, t, onClose }) {
         if (Object.keys(errs).length) { setErrors(errs); return; }
         setSubmitting(true);
         try {
-            const res = await fetch('/api/orders', {
+            const res = await fetch(`${API_BASE_URL}/api/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -8,6 +8,7 @@ import VideoModal from '../components/VideoModal';
 import CartDrawer from '../components/CartDrawer';
 import CartSidebar from '../components/CartSidebar';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
 /* ── Toast ── */
 function Toast({ message, onDone }) {
@@ -42,9 +43,9 @@ export default function HomePage() {
 
     useEffect(() => {
         Promise.all([
-            fetch('/api/banner').then(r => r.json()),
-            fetch('/api/categories').then(r => r.json()),
-            fetch('/api/products').then(r => r.json()),
+            fetch(`${API_BASE_URL}/api/banner`).then(r => r.json()),
+            fetch(`${API_BASE_URL}/api/categories`).then(r => r.json()),
+            fetch(`${API_BASE_URL}/api/products`).then(r => r.json()),
         ]).then(([bData, cData, pData]) => {
             if (bData.success && bData.data) setBanner(bData.data);
             if (cData.success) setCategories(cData.data || []);

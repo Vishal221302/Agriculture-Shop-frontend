@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import OrderModal from '../components/OrderModal';
 import CartDrawer from '../components/CartDrawer';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
 // YouTube watch → embed URL
 function toEmbedUrl(url) {
@@ -30,7 +31,7 @@ export default function MedicineDetailPage() {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        fetch(`/api/products/${id}`)
+        fetch(`${API_BASE_URL}/api/products/${id}`)
             .then(r => r.json())
             .then(data => {
                 if (data.success) setProduct(data.data);

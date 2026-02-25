@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
+import { API_BASE_URL } from '../config';
 
 /**
  * CartOrderModal — shown when user clicks "Order Now" in cart.
@@ -39,7 +40,7 @@ export default function CartOrderModal({ onClose, onSuccess }) {
                     : null
             }));
 
-            const res = await fetch('/api/orders', {
+            const res = await fetch(`${API_BASE_URL}/api/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

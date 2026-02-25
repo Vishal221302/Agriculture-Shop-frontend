@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { API_BASE_URL } from '../config';
 
 const CATEGORY_NAMES = {
     1: { hi: 'गेहूं', en: 'Wheat', icon: '🌾' },
@@ -21,7 +22,7 @@ export default function MedicineListPage() {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`/api/products?category_id=${id}`)
+        fetch(`${API_BASE_URL}/api/products?category_id=${id}`)
             .then(r => r.json())
             .then(data => {
                 if (data.success) setProducts(data.data);
