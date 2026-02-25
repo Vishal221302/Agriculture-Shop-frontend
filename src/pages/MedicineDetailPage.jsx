@@ -115,7 +115,7 @@ export default function MedicineDetailPage() {
                         {product.product_image ? (
                             <img
                                 className="detail-img"
-                                src={`/uploads/${product.product_image}`}
+                                src={API_BASE_URL + '/uploads/' + product.product_image}
                                 alt={product.medicine_name_en}
                             />
                         ) : (
@@ -128,7 +128,7 @@ export default function MedicineDetailPage() {
                         {certImages.length > 0 && (
                             <button
                                 className="detail-action-btn cert-btn"
-                                onClick={() => setCertModal(`/uploads/${certImages[0]}`)}
+                                onClick={() => setCertModal(API_BASE_URL + '/uploads/' + certImages[0])}
                             >
                                 📜 {t('सर्टिफिकेट', 'Certificate')}
                             </button>
@@ -164,8 +164,8 @@ export default function MedicineDetailPage() {
                                     <video
                                         className="video-player"
                                         controls
-                                        src={`/uploads/${product.video_url}`}
-                                        poster={product.product_image ? `/uploads/${product.product_image}` : undefined}
+                                        src={API_BASE_URL + '/uploads/' + product.video_url}
+                                        poster={product.product_image ? API_BASE_URL + '/uploads/' + product.product_image : undefined}
                                     />
                                 ) : (
                                     <iframe
@@ -188,10 +188,10 @@ export default function MedicineDetailPage() {
                                     <div
                                         key={i}
                                         className="cert-img-wrap cert-clickable"
-                                        onClick={() => setCertModal(`/uploads/${img}`)}
+                                        onClick={() => setCertModal(API_BASE_URL + '/uploads/' + img)}
                                         title={t('बड़ा देखें', 'Click to enlarge')}
                                     >
-                                        <img className="cert-img" src={`/uploads/${img}`} alt={`Certificate ${i + 1}`} loading="lazy" />
+                                        <img className="cert-img" src={API_BASE_URL + '/uploads/' + img} alt={`Certificate ${i + 1}`} loading="lazy" />
                                         <div className="cert-zoom-hint">🔍</div>
                                     </div>
                                 ))}

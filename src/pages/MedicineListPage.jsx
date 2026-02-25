@@ -108,7 +108,7 @@ export default function MedicineListPage() {
                                     {product.product_image ? (
                                         <img
                                             className="medicine-card-img"
-                                            src={`/uploads/${product.product_image}`}
+                                            src={API_BASE_URL + '/uploads/' + product.product_image}
                                             alt={t(product.medicine_name_hi, product.medicine_name_en)}
                                         />
                                     ) : (

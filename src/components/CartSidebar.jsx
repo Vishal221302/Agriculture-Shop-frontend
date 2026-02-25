@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import CartOrderModal from './CartOrderModal';
+import { API_BASE_URL } from '../config';
 
 /**
  * CartSidebar — shown on tablet/desktop (≥768px) as a sticky right panel.
@@ -13,7 +14,7 @@ function SidebarItem({ item, onRemove, onQtyChange }) {
     const { product, quantity } = item;
     const showPrice = product.show_price == 1 && product.price;
     const showQty = product.show_quantity == 1;
-    const imgSrc = product.product_image ? `/uploads/${product.product_image}` : null;
+    const imgSrc = product.product_image ? API_BASE_URL + '/uploads/' + product.product_image : null;
     const subtotal = showPrice ? Number(product.price) * quantity : null;
 
     return (

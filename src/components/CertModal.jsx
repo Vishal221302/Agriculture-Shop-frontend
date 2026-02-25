@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_BASE_URL } from '../config';
 
 /**
  * CertModal — shows certification images in a lightbox grid
@@ -20,7 +21,7 @@ export default function CertModal({ images, productName, onClose }) {
                     {images.map((img, i) => (
                         <a
                             key={i}
-                            href={`/uploads/${img}`}
+                            href={API_BASE_URL + '/uploads/' + img}
                             target="_blank"
                             rel="noreferrer"
                             className="cert-modal-item"
@@ -29,7 +30,7 @@ export default function CertModal({ images, productName, onClose }) {
                             <div className="cert-img-wrap">
                                 <img
                                     className="cert-img"
-                                    src={`/uploads/${img}`}
+                                    src={API_BASE_URL + '/uploads/' + img}
                                     alt={`Certificate ${i + 1}`}
                                     loading="lazy"
                                 />

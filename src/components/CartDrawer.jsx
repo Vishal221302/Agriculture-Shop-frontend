@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import CartOrderModal from './CartOrderModal';
+import { API_BASE_URL } from '../config';
 
 function CartItem({ item, onRemove, onQtyChange }) {
     const { t } = useLanguage();
@@ -9,7 +10,7 @@ function CartItem({ item, onRemove, onQtyChange }) {
     const showPrice = product.show_price == 1 && product.price;
     const showQty = product.show_quantity == 1;
     const imgSrc = product.product_image
-        ? `/uploads/${product.product_image}`
+        ? API_BASE_URL + '/uploads/' + product.product_image
         : null;
 
     return (

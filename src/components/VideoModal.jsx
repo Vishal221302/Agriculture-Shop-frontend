@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_BASE_URL } from '../config';
 
 function toEmbedUrl(url) {
     if (!url) return null;
@@ -26,7 +27,7 @@ export default function VideoModal({ videoUrl, videoType, productName, onClose }
                             className="video-player"
                             controls
                             autoPlay
-                            src={`/uploads/${videoUrl}`}
+                            src={API_BASE_URL + '/uploads/' + videoUrl}
                             style={{ width: '100%', borderRadius: 12, background: '#000' }}
                         />
                     ) : (

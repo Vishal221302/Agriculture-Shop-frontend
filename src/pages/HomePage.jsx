@@ -144,10 +144,10 @@ export default function HomePage() {
                         banner.video_url.startsWith('http') ? (
                             <iframe className="banner-img" src={toEmbedUrl(banner.video_url)} title="Banner" allow="autoplay; muted" style={{ border: 'none', opacity: banner.show_bg == 0 ? 1 : 0.5 }} />
                         ) : (
-                            <video className="banner-video" src={`/uploads/${banner.video_url}`} autoPlay muted loop playsInline />
+                            <video className="banner-video" src={API_BASE_URL + '/uploads/' + banner.video_url} autoPlay muted loop playsInline />
                         )
                     ) : banner.banner_image ? (
-                        <img className="banner-img" src={`/uploads/${banner.banner_image}`} alt="Banner" style={{ opacity: banner.show_bg == 0 ? 1 : undefined }} />
+                        <img className="banner-img" src={API_BASE_URL + '/uploads/' + banner.banner_image} alt="Banner" style={{ opacity: banner.show_bg == 0 ? 1 : undefined }} />
                     ) : null}
                     {banner.show_bg != 0 && (
                         <div className="banner-overlay" style={{ background: banner.bg_color ? `${banner.bg_color}99` : undefined }} />
@@ -189,7 +189,7 @@ export default function HomePage() {
                         >
                             <div className="cat-card-img-wrap">
                                 {cat.category_image ? (
-                                    <img className="cat-card-img" src={`/uploads/${cat.category_image}`} alt={cat.name_en} />
+                                    <img className="cat-card-img" src={API_BASE_URL + '/uploads/' + cat.category_image} alt={cat.name_en} />
                                 ) : (
                                     <div className="cat-card-emoji">{cat.icon || '🌾'}</div>
                                 )}
@@ -340,7 +340,7 @@ function ListItem({ product: p, lang, t, onOrder, onCert, onVideo, onAddToCart }
             <Link to={`/medicine/${p.id}`} className="list-img-link" tabIndex={-1} aria-hidden="true">
                 <div className="list-img-wrap">
                     {p.product_image ? (
-                        <img className="list-img" src={`/uploads/${p.product_image}`} alt={p.medicine_name_en} loading="lazy" />
+                        <img className="list-img" src={API_BASE_URL + '/uploads/' + p.product_image} alt={p.medicine_name_en} loading="lazy" />
                     ) : (
                         <div className="list-img-placeholder">💊</div>
                     )}
@@ -442,7 +442,7 @@ function GridCard({ product: p, lang, t, onOrder, onCert, onVideo, onAddToCart }
             <Link to={`/medicine/${p.id}`} className="medicine-card-link">
                 <div className="medicine-card-img-wrap">
                     {p.product_image ? (
-                        <img className="medicine-card-img" src={`/uploads/${p.product_image}`} alt={p.medicine_name_en} loading="lazy" />
+                        <img className="medicine-card-img" src={API_BASE_URL + '/uploads/' + p.product_image} alt={p.medicine_name_en} loading="lazy" />
                     ) : (
                         <div className="medicine-card-img-placeholder">💊</div>
                     )}
