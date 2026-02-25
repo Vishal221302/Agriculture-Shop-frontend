@@ -22,7 +22,7 @@ export default function MedicineListPage() {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${API_BASE_URL}/api/products?category_id=${id}`)
+        fetch(API_BASE_URL + '/api/products?category_id=' + id)
             .then(r => r.json())
             .then(data => {
                 if (data.success) setProducts(data.data);

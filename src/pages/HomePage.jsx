@@ -43,9 +43,9 @@ export default function HomePage() {
 
     useEffect(() => {
         Promise.all([
-            fetch(`${API_BASE_URL}/api/banner`).then(r => r.json()),
-            fetch(`${API_BASE_URL}/api/categories`).then(r => r.json()),
-            fetch(`${API_BASE_URL}/api/products`).then(r => r.json()),
+            fetch(API_BASE_URL + '/api/banner').then(r => r.json()),
+            fetch(API_BASE_URL + '/api/categories').then(r => r.json()),
+            fetch(API_BASE_URL + '/api/products').then(r => r.json()),
         ]).then(([bData, cData, pData]) => {
             if (bData.success && bData.data) setBanner(bData.data);
             if (cData.success) setCategories(cData.data || []);

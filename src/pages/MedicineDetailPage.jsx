@@ -31,7 +31,7 @@ export default function MedicineDetailPage() {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/products/${id}`)
+        fetch(API_BASE_URL + '/api/products/' + id)
             .then(r => r.json())
             .then(data => {
                 if (data.success) setProduct(data.data);
