@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { API_BASE_URL } from '../config';
 
 export default function OrderModal({ product, lang, t, onClose }) {
+    const [username, setUsername] = useState('');
     const [mobile, setMobile] = useState('');
     const [address, setAddress] = useState('');
     const [quantity, setQuantity] = useState(1);
@@ -13,6 +14,7 @@ export default function OrderModal({ product, lang, t, onClose }) {
 
     const validate = () => {
         const errs = {};
+        if (!username.trim()) errs.username = t('पूरा नाम जरूरी है', 'Full name is required');
         if (!mobile.trim()) errs.mobile = t('मोबाइल नंबर जरूरी है', 'Mobile number is required');
         else if (!/^[6-9]\d{9}$/.test(mobile.trim())) errs.mobile = t('सही 10 अंक का नंबर डालें', 'Enter a valid 10-digit mobile number');
         if (!address.trim()) errs.address = t('पता जरूरी है', 'Address is required');
@@ -24,19 +26,47 @@ export default function OrderModal({ product, lang, t, onClose }) {
         if (Object.keys(errs).length) { setErrors(errs); return; }
         setSubmitting(true);
         try {
+            const orderPayload = {
+                product_id: product.id,
+                items: [{
+                    product_id: product.id,
+                    quantity: showQty ? quantity : 1,
+                    price: product.price
+                }],
+                customer_name: username.trim(),
+                mobile_number: mobile.trim(),
+                address: address.trim(),
+                quantity: showQty ? quantity : 1
+            };
+
             const res = await fetch(API_BASE_URL + '/api/orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    product_id: product.id,
-                    mobile_number: mobile.trim(),
-                    address: address.trim(),
-                    quantity: showQty ? quantity : 1
-                })
+                body: JSON.stringify(orderPayload)
             });
             const data = await res.json();
-            if (data.success) setSuccess(true);
-            else setErrors({ server: data.message });
+
+            if (data.success) {
+                setSuccess(true);
+                // Call webhook
+                try {
+                    await fetch('https://n8n.avertisystems.com/webhook/Agro-order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            product_name: product.medicine_name_en || product.medicine_name_hi || 'Product',
+                            customer_name: username.trim(),
+                            phone: mobile.trim(),
+                            address: address.trim(),
+                            price: product.price ? String(Number(product.price) * (showQty ? quantity : 1)) : '0'
+                        })
+                    });
+                } catch (webhookErr) {
+                    console.error('Webhook failed:', webhookErr);
+                }
+            } else {
+                setErrors({ server: data.message });
+            }
         } catch { setErrors({ server: t('सर्वर से कनेक्ट नहीं हो सका', 'Cannot connect to server') }); }
         setSubmitting(false);
     };
@@ -96,6 +126,20 @@ export default function OrderModal({ product, lang, t, onClose }) {
                                 </div>
                             </div>
                         )}
+
+                        <div className="order-form-group">
+                            <label className="order-label">
+                                👤 {t('पूरा नाम *', 'Full Name *')}
+                            </label>
+                            <input
+                                className={`order-input${errors.username ? ' error' : ''}`}
+                                type="text"
+                                placeholder={t('अपना नाम लिखें', 'Enter your name')}
+                                value={username}
+                                onChange={e => { setUsername(e.target.value); setErrors(v => ({ ...v, username: null })); }}
+                            />
+                            {errors.username && <div className="order-error">⚠️ {errors.username}</div>}
+                        </div>
 
                         <div className="order-form-group">
                             <label className="order-label">
