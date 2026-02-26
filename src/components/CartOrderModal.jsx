@@ -62,11 +62,15 @@ export default function CartOrderModal({ onClose, onSuccess }) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            product_name: items.map(i => i.product.medicine_name_en || i.product.medicine_name_hi).join(', ') || 'Cart Order',
+                            order_id: `ORD-${Date.now()}`,
+                            date: new Date().toLocaleString('en-IN'),
+                            merchant_number: '918447938552',
+                            product_name: items.map(i => `${i.product.medicine_name_en || i.product.medicine_name_hi} (x${i.quantity})`).join(', ') || 'Cart Order',
                             customer_name: username.trim(),
                             phone: mobile.trim(),
                             address: address.trim(),
-                            price: hasPrice ? String(cartTotal) : '0'
+                            price: hasPrice ? String(cartTotal) : '0',
+                            product_image: items.map(i => i.product.product_image ? API_BASE_URL + '/uploads/' + i.product.product_image : '').filter(Boolean).join(', ')
                         })
                     });
                 } catch (webhookErr) {
