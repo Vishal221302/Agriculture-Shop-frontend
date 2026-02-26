@@ -41,5 +41,6 @@ Below are previews of the notifications sent by n8n:
 ![customer](https://github.com/user-attachments/assets/b9bbeb63-64bb-46f7-9afe-5ca7f7e87aeb)
 
 ### Admin Notification
-![admin](https://github.com/user-attachments/assets/3c67fa56-1519-416a-ad8c-7df4094c0478)
+![admin](https://github.com/user-attachments/assets/1bcbd290-f1ca-4fca-9b7b-c34eca3d8261)
+
 
