@@ -38,7 +38,8 @@ The JSON payload structure sent to the webhook includes:
 Below are previews of the notifications sent by n8n:
 
 ### Customer Notification
-![Customer Notification](customer-notification.jpg)
+![customer](https://github.com/user-attachments/assets/b9bbeb63-64bb-46f7-9afe-5ca7f7e87aeb)
 
 ### Admin Notification
-![Admin Notification](admin-notification.jpg)
+![admin](https://github.com/user-attachments/assets/3c67fa56-1519-416a-ad8c-7df4094c0478)
+
