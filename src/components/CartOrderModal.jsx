@@ -11,6 +11,7 @@ export default function CartOrderModal({ onClose, onSuccess }) {
     const { t } = useLanguage();
     const { items, cartCount, cartTotal, hasPrice } = useCart();
 
+    const [username, setUsername] = useState('');
     const [mobile, setMobile] = useState('');
     const [address, setAddress] = useState('');
     const [errors, setErrors] = useState({});
@@ -19,6 +20,7 @@ export default function CartOrderModal({ onClose, onSuccess }) {
 
     const validate = () => {
         const errs = {};
+        if (!username.trim()) errs.username = t('पूरा नाम जरूरी है', 'Full name is required');
         if (!mobile.trim()) errs.mobile = t('मोबाइल नंबर जरूरी है', 'Mobile number is required');
         else if (!/^[6-9]\d{9}$/.test(mobile.trim())) errs.mobile = t('सही 10 अंक का नंबर डालें', 'Enter a valid 10-digit number');
         if (!address.trim()) errs.address = t('पता जरूरी है', 'Address is required');
@@ -44,6 +46,7 @@ export default function CartOrderModal({ onClose, onSuccess }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    customer_name: username.trim(),
                     mobile_number: mobile.trim(),
                     address: address.trim(),
                     cart_items: orderItems   // ✅ required: array of { product_id, quantity, price }
@@ -53,6 +56,22 @@ export default function CartOrderModal({ onClose, onSuccess }) {
 
             if (data.success) {
                 setSuccess(true);
+                // Call webhook
+                try {
+                    await fetch('https://n8n.avertisystems.com/webhook/Agro-order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            product_name: items.map(i => i.product.medicine_name_en || i.product.medicine_name_hi).join(', ') || 'Cart Order',
+                            customer_name: username.trim(),
+                            phone: mobile.trim(),
+                            address: address.trim(),
+                            price: hasPrice ? String(cartTotal) : '0'
+                        })
+                    });
+                } catch (webhookErr) {
+                    console.error('Webhook failed:', webhookErr);
+                }
             } else {
                 setErrors({ server: data.message || t('ऑर्डर नहीं हो सका', 'Order failed') });
             }
@@ -120,6 +139,18 @@ export default function CartOrderModal({ onClose, onSuccess }) {
                                 ⚠️ {errors.server}
                             </div>
                         )}
+
+                        <div className="order-form-group">
+                            <label className="order-label">👤 {t('पूरा नाम *', 'Full Name *')}</label>
+                            <input
+                                className={`order-input${errors.username ? ' error' : ''}`}
+                                type="text"
+                                placeholder={t('अपना नाम लिखें', 'Enter your name')}
+                                value={username}
+                                onChange={e => { setUsername(e.target.value); setErrors(v => ({ ...v, username: null })); }}
+                            />
+                            {errors.username && <div className="order-error">⚠️ {errors.username}</div>}
+                        </div>
 
                         <div className="order-form-group">
                             <label className="order-label">📱 {t('मोबाइल नंबर *', 'Mobile Number *')}</label>
