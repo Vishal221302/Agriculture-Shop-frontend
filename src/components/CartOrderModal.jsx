@@ -183,15 +183,26 @@ export default function CartOrderModal({ onClose, onSuccess }) {
                             {errors.address && <div className="order-error">⚠️ {errors.address}</div>}
                         </div>
 
-                        <button className="order-submit" onClick={handleSubmit} disabled={submitting}>
-                            {submitting
-                                ? t('भेज रहे हैं...', 'Placing order...')
-                                : `📞 ${t('ऑर्डर कन्फर्म करें', 'Confirm Order')}`
-                            }
-                        </button>
-                        <button className="order-cancel" onClick={onClose}>
-                            {t('रद्द करें', 'Cancel')}
-                        </button>
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
+                            <button 
+                                className="order-cancel" 
+                                onClick={onClose} 
+                                style={{ flex: 1, margin: 0, background: '#ef4444', color: '#fff', border: 'none' }}
+                            >
+                                {t('रद्द करें', 'Cancel')}
+                            </button>
+                            <button 
+                                className="order-submit" 
+                                onClick={handleSubmit} 
+                                disabled={submitting} 
+                                style={{ flex: 1, margin: 0 }}
+                            >
+                                {submitting
+                                    ? t('भेज रहे हैं...', 'Placing..')
+                                    : `📞 ${t('ऑर्डर कन्फर्म', 'Confirm')}`
+                                }
+                            </button>
+                        </div>
                     </>
                 )}
             </div>

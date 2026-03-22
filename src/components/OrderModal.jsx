@@ -171,13 +171,32 @@ export default function OrderModal({ product, lang, t, onClose }) {
                             />
                             {errors.address && <div className="order-error">⚠️ {errors.address}</div>}
                         </div>
-
-                        <button className="order-submit" onClick={handleSubmit} disabled={submitting}>
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
+                            <button
+                                className="order-cancel"
+                                onClick={onClose}
+                                style={{ flex: 1, margin: 0, background: '#ef4444', color: '#fff', border: 'none' }}
+                            >
+                                {t('रद्द करें', 'Cancel')}
+                            </button>
+                            <button
+                                className="order-submit"
+                                onClick={handleSubmit}
+                                disabled={submitting}
+                                style={{ flex: 1, margin: 0 }}
+                            >
+                                {submitting
+                                    ? t('भेज रहे हैं...', 'Placing..')
+                                    : `📞 ${t('ऑर्डर कन्फर्म', 'Confirm')}`
+                                }
+                            </button>
+                        </div>
+                        {/* <button className="order-submit" onClick={handleSubmit} disabled={submitting}>
                             {submitting ? t('भेज रहे हैं...', 'Placing order...') : `📞 ${t('अभी ऑर्डर करें', 'Order Now')}`}
                         </button>
-                        <button className="order-cancel" onClick={onClose}>
+                        <button className="order-cancel"  onClick={onClose}>
                             {t('रद्द करें', 'Cancel')}
-                        </button>
+                        </button> */}
                     </>
                 )}
             </div>

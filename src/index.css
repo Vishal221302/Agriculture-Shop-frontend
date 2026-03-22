@@ -1400,6 +1400,7 @@ textarea {
   padding: 8px;
   background: transparent;
   border: none;
+  border-radius: var(--radius-xl);
 }
 
 .order-cancel:hover {
